@@ -198,8 +198,11 @@ void gui::Render() noexcept
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::Begin("cool menu", &open);
+	//do drawing here
+	//for styling edits, find function in IMGUI file and modify it to style to your liking
+	ImGui::Begin("REAPER | CS:GO", &open);
 	ImGui::End();
+	//do drawing here
 
 	ImGui::EndFrame();
 	ImGui::Render();

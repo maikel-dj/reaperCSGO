@@ -16,15 +16,16 @@ void Setup(const HMODULE instance)
 		MessageBox(
 			0,
 			error.what(),
-			"hack error",
+			"REAPER exception",
 			MB_OK | MB_ICONEXCLAMATION
 		);
 
 		goto UNLOAD;
 	}
 
-	while (!GetAsyncKeyState(VK_END))
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	//ejection (temporairly for testing in dev build)
+	while (!GetAsyncKeyState(VK_NUMPAD9))
+		Sleep(200);
 
 UNLOAD:
 	hooks::Destroy();
