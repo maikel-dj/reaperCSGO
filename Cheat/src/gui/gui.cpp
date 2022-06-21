@@ -2,21 +2,21 @@
 #include "gui.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
-	HWND hWnd,
-	UINT msg, 
-	WPARAM wParam, 
-	LPARAM lParam
+	HWND window,
+	UINT message,
+	WPARAM wideParam,
+	LPARAM longParam
 );
 
-//windows process
-LRESULT CALLBACK WndProc(
-	HWND hWnd,
-	UINT msg,
-	WPARAM wParam,
-	LPARAM lParam
+// window process
+LRESULT CALLBACK WindowProcess(
+	HWND window,
+	UINT message,
+	WPARAM wideParam,
+	LPARAM longParam
 );
 
-bool gui::SetupWindowClass(const wchar_t* windowClassName) noexcept
+bool gui::SetupWindowClass(const char* windowClassName) noexcept
 {
 	// populate window class
 	windowClass.cbSize = sizeof(WNDCLASSEX);
@@ -31,12 +31,10 @@ bool gui::SetupWindowClass(const wchar_t* windowClassName) noexcept
 	windowClass.lpszMenuName = NULL;
 	windowClass.lpszClassName = windowClassName;
 	windowClass.hIconSm = NULL;
-	
-	//register class
+
+	// register
 	if (!RegisterClassEx(&windowClass))
-	{
 		return false;
-	}
 
 	return true;
 }
@@ -49,9 +47,9 @@ void gui::DestroyWindowClass() noexcept
 	);
 }
 
-bool gui::SetupWindow(const wchar_t* windowName) noexcept
+bool gui::SetupWindow(const char* windowName) noexcept
 {
-	//create temp window
+	// create temp window
 	window = CreateWindow(
 		windowClass.lpszClassName,
 		windowName,
@@ -67,45 +65,39 @@ bool gui::SetupWindow(const wchar_t* windowName) noexcept
 	);
 
 	if (!window)
-	{
 		return false;
-	}
-	
+
 	return true;
 }
 
 void gui::DestroyWindow() noexcept
 {
 	if (window)
-	{
 		DestroyWindow(window);
-	}
 }
 
 bool gui::SetupDirectX() noexcept
 {
-	const auto handle = GetModuleHandle(L"d3d9.dll");
-	
+	const auto handle = GetModuleHandle("d3d9.dll");
+
 	if (!handle)
-	{
 		return false;
-	}
-	
+
 	using CreateFn = LPDIRECT3D9(__stdcall*)(UINT);
-	const auto create = reinterpret_cast<CreateFn>(GetProcAddress(handle, "Direct3DCreate9"));
+
+	const auto create = reinterpret_cast<CreateFn>(GetProcAddress(
+		handle,
+		"Direct3DCreate9"
+	));
 
 	if (!create)
-	{
 		return false;
-	}
 
 	d3d9 = create(D3D_SDK_VERSION);
-	
+
 	if (!d3d9)
-	{
 		return false;
-	}
-	
+
 	D3DPRESENT_PARAMETERS params = { };
 	params.BackBufferWidth = 0;
 	params.BackBufferHeight = 0;
@@ -120,8 +112,8 @@ bool gui::SetupDirectX() noexcept
 	params.AutoDepthStencilFormat = D3DFMT_UNKNOWN;
 	params.Flags = NULL;
 	params.FullScreen_RefreshRateInHz = 0;
-	params.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-	
+	params.PresentationInterval = 0;
+
 	if (d3d9->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_NULLREF,
@@ -129,12 +121,7 @@ bool gui::SetupDirectX() noexcept
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING | D3DCREATE_DISABLE_DRIVER_MANAGEMENT,
 		&params,
 		&device
-	
-	// replace D3D_OK with < 0 if giving issues
-	) != D3D_OK)
-	{
-		return false;
-	}
+	) < 0) return false;
 
 	return true;
 }
@@ -154,41 +141,31 @@ void gui::DestroyDirectX() noexcept
 	}
 }
 
-void gui::Setup() noexcept
+void gui::Setup()
 {
-	if (!SetupWindowClass(L"ImGui Class"))
-	{
-		throw std::runtime_error("Failed to create window class");
-	}
+	if (!SetupWindowClass("hackClass001"))
+		throw std::runtime_error("Failed to create window class.");
 
-	if (!SetupWindow(L"ImGui Window"))
-	{
-		throw std::runtime_error("Failed to create window");
-	}
-	
+	if (!SetupWindow("Hack Window"))
+		throw std::runtime_error("Failed to create window.");
+
 	if (!SetupDirectX())
-	{
-		throw std::runtime_error("Failed to create DirectX");
-	}
-	
+		throw std::runtime_error("Failed to create device.");
+
 	DestroyWindow();
 	DestroyWindowClass();
 }
 
 void gui::SetupMenu(LPDIRECT3DDEVICE9 device) noexcept
 {
-	auto params = D3DDEVICE_CREATION_PARAMETERS { };
+	auto params = D3DDEVICE_CREATION_PARAMETERS{ };
 	device->GetCreationParameters(&params);
 
 	window = params.hFocusWindow;
-	
+
 	originalWindowProcess = reinterpret_cast<WNDPROC>(
-		SetWindowLongPtr(
-			window,
-			GWLP_WNDPROC,
-			reinterpret_cast<LONG_PTR>(WndProc)
-		)
-	);
+		SetWindowLongPtr(window, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(WindowProcess))
+		);
 
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
@@ -199,12 +176,13 @@ void gui::SetupMenu(LPDIRECT3DDEVICE9 device) noexcept
 	setup = true;
 }
 
-void gui::DestroyMenu() noexcept
+void gui::Destroy() noexcept
 {
 	ImGui_ImplDX9_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
 
+	// retore wnd proc
 	SetWindowLongPtr(
 		window,
 		GWLP_WNDPROC,
@@ -220,41 +198,38 @@ void gui::Render() noexcept
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	//make another function for this shit later
-	//drawing
-	ImGui::Begin("ImGui Window", &open);
+	ImGui::Begin("cool menu", &open);
 	ImGui::End();
 
 	ImGui::EndFrame();
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
-	
 }
 
-LRESULT CALLBACK WndProc(
-	HWND hWnd,
-	UINT msg,
-	WPARAM wParam,
-	LPARAM lParam
+LRESULT CALLBACK WindowProcess(
+	HWND window,
+	UINT message,
+	WPARAM wideParam,
+	LPARAM longParam
 )
 {
-	// toggle menu
+	// toogle menu
 	if (GetAsyncKeyState(VK_INSERT) & 1)
-	{
 		gui::open = !gui::open;
-	}
 
-	//pass messages to imgui (?)
-	if (gui::open && ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-	{
-		return 1L;
-	}
+	// pass messages to imgui
+	if (gui::open && ImGui_ImplWin32_WndProcHandler(
+		window,
+		message,
+		wideParam,
+		longParam
+	)) return 1L;
 
 	return CallWindowProc(
 		gui::originalWindowProcess,
-		hWnd,
-		msg,
-		wParam,
-		lParam
+		window,
+		message,
+		wideParam,
+		longParam
 	);
 }

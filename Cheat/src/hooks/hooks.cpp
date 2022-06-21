@@ -5,32 +5,22 @@
 void hooks::Setup()
 {
 	if (MH_Initialize())
-	{
-		throw std::runtime_error("Unable to initialize holy minhook");
-	}
+		throw std::runtime_error("Unable to initialize minhook");
 
 	if (MH_CreateHook(
 		VirtualFunction(gui::device, 42),
-		&EndSceneHook,
+		&EndScene,
 		reinterpret_cast<void**>(&EndSceneOriginal)
-	))
-	{
-		throw std::runtime_error("Unable to hook EndScene");
-	}
-	
+	)) throw std::runtime_error("Unable to hook EndScene()");
+
 	if (MH_CreateHook(
-		VirtualFunction(gui::device, 43),
+		VirtualFunction(gui::device, 16),
 		&Reset,
 		reinterpret_cast<void**>(&ResetOriginal)
-	))
-	{
-		throw std::runtime_error("Unable to hook Reset");
-	}
+	)) throw std::runtime_error("Unable to hook Reset()");
 
 	if (MH_EnableHook(MH_ALL_HOOKS))
-	{
-		throw std::runtime_error("Unable to enable all hooks");
-	}
+		throw std::runtime_error("Unable to enable hooks");
 
 	gui::DestroyDirectX();
 }
@@ -42,27 +32,21 @@ void hooks::Destroy() noexcept
 	MH_Uninitialize();
 }
 
-long __stdcall hooks::EndSceneHook(IDirect3DDevice9* device) noexcept
+long __stdcall hooks::EndScene(IDirect3DDevice9* device) noexcept
 {
 	static const auto returnAddress = _ReturnAddress();
 
 	const auto result = EndSceneOriginal(device, device);
 
-	//stop endscene getting called twice
-	if (returnAddress == _ReturnAddress())
-	{
+	// stop endscene getting called twice
+	if (_ReturnAddress() == returnAddress)
 		return result;
-	}
 
 	if (!gui::setup)
-	{
 		gui::SetupMenu(device);
-	}
 
 	if (gui::open)
-	{
 		gui::Render();
-	}
 
 	return result;
 }

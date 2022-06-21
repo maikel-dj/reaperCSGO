@@ -3,35 +3,35 @@
 
 namespace gui
 {
-	//show menu?
+	// show menu?
 	inline bool open = true;
 
-	//is menu setup?
+	// is menu setup?
 	inline bool setup = false;
-	
-	//winapi related
+
+	// winapi related
 	inline HWND window = nullptr;
-	inline WNDCLASSEX windowClass = {};
+	inline WNDCLASSEX windowClass = { };
 	inline WNDPROC originalWindowProcess = nullptr;
-	
-	//dx stuff
+
+	// dx stuff
 	inline LPDIRECT3DDEVICE9 device = nullptr;
 	inline LPDIRECT3D9 d3d9 = nullptr;
 
-	bool SetupWindowClass(const wchar_t* windowClassName) noexcept;
+	bool SetupWindowClass(const char* windowClassName) noexcept;
 	void DestroyWindowClass() noexcept;
-	
-	bool SetupWindow(const wchar_t* windowName) noexcept;
+
+	bool SetupWindow(const char* windowName) noexcept;
 	void DestroyWindow() noexcept;
 
 	bool SetupDirectX() noexcept;
 	void DestroyDirectX() noexcept;
-	
-	//setup device
-	void Setup() noexcept;	//setup everything
-	
+
+	// setup device
+	void Setup();
+
 	void SetupMenu(LPDIRECT3DDEVICE9 device) noexcept;
-	void DestroyMenu() noexcept;
+	void Destroy() noexcept;
 
 	void Render() noexcept;
 }
