@@ -192,6 +192,46 @@ void gui::Destroy() noexcept
 	DestroyDirectX();
 }
 
+void gui::SetMenuStartSize() noexcept {
+	if (!setup) return;
+
+	ImGui::SetNextWindowSize(ImVec2(400, 400)); // we set the size only once this way
+}
+
+// Saves some information about the ImGui menu being drawn. Only call before ImGui::End, otherwise it wont store proper data.
+void gui::StoreMenuState() noexcept {
+	if (!setup || !ImGui::GetCurrentWindowRead()) return;
+
+	menuSize = ImGui::GetWindowSize();
+	menuRelativePos = ImGui::GetWindowPos();
+}
+
+// TODO: fix shitty menu bar from shifting the coordinates calculation in y-coordinate plane
+// NB! do not call any imgui functions here
+bool gui::IsMouseInsideMenu() noexcept {
+	if (!setup) return false;
+
+	HWND csgoWindow = GetActiveWindow();
+	if (!csgoWindow) return false;
+
+	POINT cursorPos = {0};
+	if (!GetCursorPos(&cursorPos)) return false;
+
+	RECT csgoWindowBounds = {0};
+	GetWindowRect(csgoWindow, &csgoWindowBounds);
+	
+	// calculate the coordinate bounds for our menu
+	RECT menuBounds = { 0 };
+	menuBounds.left = csgoWindowBounds.left + (LONG)menuRelativePos.x;
+	menuBounds.right = menuBounds.left + (LONG)menuSize.x;
+	menuBounds.top = csgoWindowBounds.top + (LONG)menuRelativePos.y;
+	menuBounds.bottom = menuBounds.top + (LONG)menuSize.y;
+
+	// check if cursorPos is between these bounds
+	if (menuBounds.left < cursorPos.x && cursorPos.x < menuBounds.right && menuBounds.top < cursorPos.y && cursorPos.y < menuBounds.bottom) return true;
+	else return false;
+}
+
 void gui::Render() noexcept
 {
 	ImGui_ImplDX9_NewFrame();
@@ -201,10 +241,14 @@ void gui::Render() noexcept
 	//do drawing here
 	//for styling edits, find function in IMGUI file and modify it to style to your liking
 	ImGui::Begin("REAPER | CS:GO", &open);
+
+	// im just so retarded having been unable to add absolutely nothing else to the menu than gui::StoreMenuState
+
+	gui::StoreMenuState();
 	ImGui::End();
 	//do drawing here
 
-	ImGui::EndFrame();
+	ImGui::EndFrame();		
 	ImGui::Render();
 	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
 }
@@ -227,6 +271,9 @@ LRESULT CALLBACK WindowProcess(
 		wideParam,
 		longParam
 	)) return 1L;
+
+	// block keyboard/mouse input from being passed on to cs:go if we are clicking buttons inside our menu
+	if (gui::IsMouseInsideMenu()) return 1L;
 
 	return CallWindowProc(
 		gui::originalWindowProcess,

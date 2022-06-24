@@ -5,13 +5,15 @@ namespace gui
 {
 	// show menu?
 	inline bool open = true;
-
 	// is menu setup?
 	inline bool setup = false;
+	// imgui previous frame data
+	inline ImVec2 menuRelativePos = {};
+	inline ImVec2 menuSize = {};
 
 	// winapi related
 	inline HWND window = nullptr;
-	inline WNDCLASSEX windowClass = { };
+	inline WNDCLASSEX windowClass = {};
 	inline WNDPROC originalWindowProcess = nullptr;
 
 	// dx stuff
@@ -34,5 +36,8 @@ namespace gui
 	void Destroy() noexcept;
 
 	void Render() noexcept;
+	void SetMenuStartSize() noexcept;
+	void StoreMenuState() noexcept;
+	bool IsMouseInsideMenu() noexcept;
 }
 
