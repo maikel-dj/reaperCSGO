@@ -8,9 +8,7 @@ void Setup(const HMODULE instance)
 	try
 	{
 		gui::Setup();
-		gui::SetMenuStartSize();
 		hooks::Setup();
-
 	}
 	catch (const std::exception& error)
 	{

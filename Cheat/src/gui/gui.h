@@ -35,7 +35,8 @@ namespace gui
 	void SetupMenu(LPDIRECT3DDEVICE9 device) noexcept;
 	void Destroy() noexcept;
 
-	void Render() noexcept;
+	void Render(IDirect3DDevice9* device) noexcept;
+	void ApplyCustomStyle() noexcept;
 	void SetMenuStartSize() noexcept;
 	void StoreMenuState() noexcept;
 	bool IsMouseInsideMenu() noexcept;

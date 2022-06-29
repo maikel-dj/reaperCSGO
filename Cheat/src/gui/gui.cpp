@@ -1,5 +1,5 @@
-#include "../includes.h"
 #include "gui.h"
+#include "gui_components.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	HWND window,
@@ -192,61 +192,29 @@ void gui::Destroy() noexcept
 	DestroyDirectX();
 }
 
-void gui::SetMenuStartSize() noexcept {
-	if (!setup) return;
+void gui::ApplyCustomStyle() noexcept {
+	ImGuiStyle& style = ImGui::GetStyle();
 
-	ImGui::SetNextWindowSize(ImVec2(400, 400)); // we set the size only once this way
+	style.WindowBorderSize = 0.0f;
+	style.WindowMenuButtonPosition = ImGuiDir_None;
+	style.WindowPadding.x = 0.0f;
+	style.WindowPadding.y = 0.0f;
+	style.WindowRounding = 6.0f;
+
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.07f, 0.07f, 0.11f, 1.0f);
 }
 
-// Saves some information about the ImGui menu being drawn. Only call before ImGui::End, otherwise it wont store proper data.
-void gui::StoreMenuState() noexcept {
-	if (!setup || !ImGui::GetCurrentWindowRead()) return;
-
-	menuSize = ImGui::GetWindowSize();
-	menuRelativePos = ImGui::GetWindowPos();
-}
-
-// TODO: fix shitty menu bar from shifting the coordinates calculation in y-coordinate plane
-// NB! do not call any imgui functions here
-bool gui::IsMouseInsideMenu() noexcept {
-	if (!setup) return false;
-
-	HWND csgoWindow = GetActiveWindow();
-	if (!csgoWindow) return false;
-
-	POINT cursorPos = {0};
-	if (!GetCursorPos(&cursorPos)) return false;
-
-	RECT csgoWindowBounds = {0};
-	GetWindowRect(csgoWindow, &csgoWindowBounds);
-	
-	// calculate the coordinate bounds for our menu
-	RECT menuBounds = { 0 };
-	menuBounds.left = csgoWindowBounds.left + (LONG)menuRelativePos.x;
-	menuBounds.right = menuBounds.left + (LONG)menuSize.x;
-	menuBounds.top = csgoWindowBounds.top + (LONG)menuRelativePos.y;
-	menuBounds.bottom = menuBounds.top + (LONG)menuSize.y;
-
-	// check if cursorPos is between these bounds
-	if (menuBounds.left < cursorPos.x && cursorPos.x < menuBounds.right && menuBounds.top < cursorPos.y && cursorPos.y < menuBounds.bottom) return true;
-	else return false;
-}
-
-void gui::Render() noexcept
+void gui::Render(IDirect3DDevice9* device) noexcept
 {
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	//do drawing here
-	//for styling edits, find function in IMGUI file and modify it to style to your liking
-	ImGui::Begin("REAPER | CS:GO", &open);
+	gui_components::CreateMainMenu(device);
 
-	// im just so retarded having been unable to add absolutely nothing else to the menu than gui::StoreMenuState
-
-	gui::StoreMenuState();
-	ImGui::End();
-	//do drawing here
+	bool isOpen = true;
+	ImGui::ShowStyleEditor();
+	ImGui::ShowDemoWindow(&isOpen);
 
 	ImGui::EndFrame();		
 	ImGui::Render();
@@ -273,7 +241,7 @@ LRESULT CALLBACK WindowProcess(
 	)) return 1L;
 
 	// block keyboard/mouse input from being passed on to cs:go if we are clicking buttons inside our menu
-	if (gui::IsMouseInsideMenu()) return 1L;
+	if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse) return 1L;
 
 	return CallWindowProc(
 		gui::originalWindowProcess,

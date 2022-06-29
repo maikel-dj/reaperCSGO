@@ -37,16 +37,18 @@ long __stdcall hooks::EndScene(IDirect3DDevice9* device) noexcept
 	static const auto returnAddress = _ReturnAddress();
 
 	const auto result = EndSceneOriginal(device, device);
-
+	
 	// stop endscene getting called twice
 	if (_ReturnAddress() == returnAddress)
 		return result;
 
-	if (!gui::setup)
+	if (!gui::setup) {
 		gui::SetupMenu(device);
+		gui::ApplyCustomStyle();
+	}
 
 	if (gui::open)
-		gui::Render();
+		gui::Render(device);
 
 	return result;
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "globals.h"
+
 #include <Windows.h>
 #include <thread>
 

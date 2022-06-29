@@ -716,6 +716,16 @@ bool ImGui::Button(const char* label, const ImVec2& size_arg)
     return ButtonEx(label, size_arg, ImGuiButtonFlags_None);
 }
 
+template <typename VType>
+bool ImGui::ButtonWithVar(const char* label, VType* addrOfVar, VType varValueIfBtnPressed, const ImVec2& size_arg)
+{
+    bool pressed = ButtonEx(label, size_arg, ImGuiButtonFlags_None);
+    if (pressed) {
+        *addrOfVar = varValueIfBtnPressed;
+    }
+    return pressed;
+}
+
 // Small buttons fits within text without additional vertical spacing.
 bool ImGui::SmallButton(const char* label)
 {
