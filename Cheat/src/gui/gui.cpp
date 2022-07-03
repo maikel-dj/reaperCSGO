@@ -1,4 +1,5 @@
 #include "gui.h"
+#include "gui_consts.h"
 #include "gui_components.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
@@ -200,8 +201,17 @@ void gui::ApplyCustomStyle() noexcept {
 	style.WindowPadding.x = 0.0f;
 	style.WindowPadding.y = 0.0f;
 	style.WindowRounding = 6.0f;
+	style.WindowTitleAlign.x = 0.5f;
 
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.07f, 0.07f, 0.11f, 1.0f);
+	style.Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.00f, 0.00f, 1.0f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.058f, 0.058f, 0.058f, 0.95f);
+}
+
+void gui::LoadFonts() noexcept {
+	ImGuiIO& io = ImGui::GetIO();
+	
+	gui::logoFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", TITLEBAR_FONT_SIZE);
+	io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 13.0f);
 }
 
 void gui::Render(IDirect3DDevice9* device) noexcept

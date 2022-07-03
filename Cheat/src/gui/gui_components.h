@@ -6,13 +6,17 @@ struct MenuState {
 
 	// textures
 	PDIRECT3DTEXTURE9 logoTexture;
+	PDIRECT3DTEXTURE9 avatarTexture;
 };
 
 namespace gui_components {
 	inline MenuState state = { 0 };
 
+	void CreateTitlebar(IDirect3DDevice9* device);
+	void DrawTitlebarLogo(IDirect3DDevice9* device);
+
+	void DrawUserAvatar(IDirect3DDevice9* device);
 	void DrawSidebarHorizontalLine(float lineThickness);
-	void DrawSidebarLogo(IDirect3DDevice9* device);
 	void CreateSidebar(IDirect3DDevice9* device);
 
 	void CreateMainMenu(IDirect3DDevice9* device);

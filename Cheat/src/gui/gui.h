@@ -7,9 +7,9 @@ namespace gui
 	inline bool open = true;
 	// is menu setup?
 	inline bool setup = false;
-	// imgui previous frame data
-	inline ImVec2 menuRelativePos = {};
-	inline ImVec2 menuSize = {};
+	// font data
+	inline ImFont* logoFont = nullptr;
+	inline ImFont* defaultFont = nullptr;
 
 	// winapi related
 	inline HWND window = nullptr;
@@ -35,10 +35,9 @@ namespace gui
 	void SetupMenu(LPDIRECT3DDEVICE9 device) noexcept;
 	void Destroy() noexcept;
 
+	// everything related to modifying or drawing the menue
 	void Render(IDirect3DDevice9* device) noexcept;
 	void ApplyCustomStyle() noexcept;
-	void SetMenuStartSize() noexcept;
-	void StoreMenuState() noexcept;
-	bool IsMouseInsideMenu() noexcept;
+	void LoadFonts() noexcept;
 }
 
