@@ -48,6 +48,9 @@ void gui_components::CreateTitlebar(IDirect3DDevice9* device) {
 void gui_components::DrawTitlebarLogo(IDirect3DDevice9* device) {
 	// TODO: put img in memory in the future
 	if (!gui_components::state.logoTexture) {
+
+		// autopilot recommended me this smile face :)
+		// application wont crash if the texture is not found, but better practice to include it in the project next time and not use whole path
 		HRESULT res = D3DXCreateTextureFromFile(device, "C:\\Users\\madis\\source\\repos\\reaperCSGO\\Cheat\\images\\logo.png", &gui_components::state.logoTexture);
 		if (res != S_OK) return;
 
@@ -68,6 +71,8 @@ void gui_components::DrawTitlebarLogo(IDirect3DDevice9* device) {
 void gui_components::DrawUserAvatar(IDirect3DDevice9* device) {
 	// TODO: put img in memory in the future
 	if (!gui_components::state.avatarTexture) {
+		
+		// application wont crash if the texture is not found, but better practice to include it in the project next time and not use whole path
 		HRESULT res = D3DXCreateTextureFromFile(device, "C:\\Users\\madis\\source\\repos\\reaperCSGO\\Cheat\\images\\circle_question_mark.png", &gui_components::state.avatarTexture);
 		if (res != S_OK) return;
 
