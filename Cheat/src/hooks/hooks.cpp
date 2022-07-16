@@ -75,12 +75,20 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 		return result;
 	}
 
+	//experimental retcheck implementation
+	static const auto returnAddress = _ReturnAddress();
+	if (_ReturnAddress() == returnAddress)
+		//patch function return with a nullptr
+		
+	
 	//do your magic in here ! 
 
 	//do your magic in here ! ^
 
 	return false;
 }
+
+//maybe do surfacepaint hook for ESP?
 
 void hooks::Setup()
 {
