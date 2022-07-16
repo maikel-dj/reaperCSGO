@@ -19,5 +19,7 @@
 
 #include "../ext/minhook/minhook.h"
 
+#include "usercmd.h"
+
 
 

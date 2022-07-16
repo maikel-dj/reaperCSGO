@@ -2,11 +2,13 @@
 #include "includes.h"
 #include "hooks/hooks.h"
 	
+
 // setup function
 void Setup(const HMODULE instance)
 {
 	try
 	{
+		//call main imgui and hooking setup functions
 		gui::Setup();
 		hooks::Setup();
 	}

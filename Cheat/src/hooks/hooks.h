@@ -21,6 +21,6 @@ namespace hooks
 	inline ResetFn ResetOriginal = nullptr;
 	HRESULT __stdcall Reset(IDirect3DDevice9* device, D3DPRESENT_PARAMETERS* params) noexcept;
 
-	//to-do : add more hooks (createMove)
+	//for some reason including the createmove functions caused some really nasty compiling errors so ill get back to it later but it should function for now...
 	
 }
