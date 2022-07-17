@@ -4,6 +4,7 @@
 
 #include <Windows.h>
 #include <thread>
+#include <Psapi.h>
 
 #include <cstdint>
 #include <stdexcept>

@@ -251,9 +251,8 @@ LRESULT CALLBACK WindowProcess(
 	)) return 1L;
 
 	// block keyboard/mouse input from being passed on to cs:go if we are clicking buttons inside our menu
-	// this check is partially broken so it will be replaced later
-	
-	//if (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse) return 1L;
+	// should be fixed now
+	if (gui::open && (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse)) return 1L;
 
 	return CallWindowProc(
 		gui::originalWindowProcess,

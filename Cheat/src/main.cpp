@@ -1,6 +1,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include "includes.h"
 #include "hooks/hooks.h"
+#include "memory/interfaces.h"
+#include "memory/memory.h"
 	
 
 // setup function
@@ -10,6 +12,8 @@ void Setup(const HMODULE instance)
 	{
 		//call main imgui and hooking setup functions
 		gui::Setup();
+		interfaces::Setup();
+		memory::SetupValues();
 		hooks::Setup();
 	}
 	catch (const std::exception& error)

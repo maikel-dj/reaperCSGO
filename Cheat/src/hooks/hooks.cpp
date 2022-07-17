@@ -1,28 +1,7 @@
 #include "hooks.h"
 #include "../includes.h"
-
-//interfaces
-static void* g_Client = nullptr;
-static void* g_ClientMode = nullptr;
-
-//get interface function
-//used to get address in  memory of g_Client to use that for g_ClientMode which is needed to hook CreateMove
-template <typename T>
-static T* GetInterface(const char* name, const char* library)
-{
-	const HINSTANCE handle = GetModuleHandle(library);
-
-	if (!handle)
-	{
-		//optional error checking here but for now unnecesary
-		return nullptr;
-	}
-
-	using Fn = T * (*)(const char*, int*);
-	const Fn CreateInterface = reinterpret_cast<Fn>(GetProcAddress(handle, "CreateInterface"));
-
-	return CreateInterface(name, nullptr);
-}
+#include "../memory/interfaces.h"
+#include "../memory/memory.h"
 
 void hooks::Destroy() noexcept
 {
@@ -68,7 +47,7 @@ static CreateMove CreateMoveOriginal = nullptr;
 bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 {
 	//need to call original function in a hook
-	const bool result = CreateMoveOriginal(g_ClientMode, frameTime, cmd);
+	const bool result = CreateMoveOriginal(interfaces::clientMode, frameTime, cmd);
 
 	if (!cmd || !cmd->commandNumber)
 	{
@@ -76,8 +55,8 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 	}
 
 	//experimental retcheck implementation
-	static const auto returnAddress = _ReturnAddress();
-	if (_ReturnAddress() == returnAddress)
+	//static const auto returnAddress = _ReturnAddress();
+	//if (_ReturnAddress() == returnAddress)
 		//patch function return with a nullptr
 		
 	
@@ -88,13 +67,21 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 	return false;
 }
 
+void* __stdcall hooks::AllocKeyValuesMemoryHook(const std::int32_t size) noexcept {
+	// UPDATED VERSION:: check if we are returning somewhere inside a designated function to check the return address (pRetCheck <= addr && addr < pRetCheck+200 bytes)
+	if (const std::uint32_t address = reinterpret_cast<std::uint32_t>(_ReturnAddress());
+		(reinterpret_cast<std::uint32_t>(memory::allocKeyValuesEngine) <= address && address < reinterpret_cast<std::uint32_t>(memory::allocKeyValuesEngine) + 200) ||
+		(reinterpret_cast<std::uint32_t>(memory::allocKeyValuesClient) <= address && address < reinterpret_cast<std::uint32_t>(memory::allocKeyValuesClient) + 200)
+	) return nullptr;
+
+	// return original
+	return AllocKeyValuesMemoryOriginal(interfaces::keyValuesSystem, size);
+}
+
 //maybe do surfacepaint hook for ESP?
 
 void hooks::Setup()
 {
-	g_Client = GetInterface<void>("VClient018", "client.dll");
-	g_ClientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(g_Client))[10] + 5);
-	
 	if (MH_Initialize())
 		throw std::runtime_error("Unable to initialize minhook");
 
@@ -112,9 +99,15 @@ void hooks::Setup()
 
 	//createMove
 	if (MH_CreateHook(
-		(*static_cast<void***>(g_ClientMode))[24],
+		(*static_cast<void***>(interfaces::clientMode))[24],
 		&CreateMoveHook,
 		reinterpret_cast<void**>(&CreateMoveOriginal)
+	)) throw std::runtime_error("Unable to hook CreateMove()");
+
+	if (MH_CreateHook(
+		VirtualFunction(interfaces::keyValuesSystem, 1),
+		&AllocKeyValuesMemoryHook,
+		reinterpret_cast<void**>(&AllocKeyValuesMemoryOriginal)
 	)) throw std::runtime_error("Unable to hook CreateMove()");
 
 	if (MH_EnableHook(MH_ALL_HOOKS))

@@ -21,6 +21,10 @@ namespace hooks
 	inline ResetFn ResetOriginal = nullptr;
 	HRESULT __stdcall Reset(IDirect3DDevice9* device, D3DPRESENT_PARAMETERS* params) noexcept;
 
+	using AllocKeyValuesMemoryFn = void* (__thiscall*)(void*, const std::int32_t) noexcept;
+	inline AllocKeyValuesMemoryFn AllocKeyValuesMemoryOriginal = nullptr;
+	void* __stdcall AllocKeyValuesMemoryHook(const std::int32_t size) noexcept;
+
 	//for some reason including the createmove functions caused some really nasty compiling errors so ill get back to it later but it should function for now...
 	
 }
