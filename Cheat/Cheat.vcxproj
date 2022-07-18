@@ -35,7 +35,15 @@
     <ClInclude Include="ext\minhook\hde\table64.h" />
     <ClInclude Include="ext\minhook\minhook.h" />
     <ClInclude Include="ext\minhook\trampoline.h" />
-    <ClInclude Include="src\memory\interfaces.h" />
+    <ClInclude Include="ext\valve-sdk\CUserCmd.h" />
+    <ClInclude Include="ext\valve-sdk\IInputSystem.h" />
+    <ClInclude Include="src\client-classes\CEntity.h" />
+    <ClInclude Include="src\netvars\netvars.h" />
+    <ClInclude Include="src\netvars\fnvhash.h" />
+    <ClInclude Include="src\interfaces\interfaces.h" />
+    <ClInclude Include="ext\valve-sdk\datatable.h" />
+    <ClInclude Include="ext\valve-sdk\IBaseClientDLL.h" />
+    <ClInclude Include="ext\valve-sdk\IClientEntityList.h" />
     <ClInclude Include="src\memory\memory.h" />
     <ClInclude Include="src\gui\gui.h" />
     <ClInclude Include="src\gui\gui_components.h" />
@@ -57,7 +65,8 @@
     <ClCompile Include="ext\minhook\hde\hde64.c" />
     <ClCompile Include="ext\minhook\hook.c" />
     <ClCompile Include="ext\minhook\trampoline.c" />
-    <ClCompile Include="src\memory\interfaces.cpp" />
+    <ClCompile Include="src\netvars\netvars.cpp" />
+    <ClCompile Include="src\interfaces\interfaces.cpp" />
     <ClCompile Include="src\memory\memory.cpp" />
     <ClCompile Include="src\gui\gui.cpp" />
     <ClCompile Include="src\gui\gui_components.cpp" />

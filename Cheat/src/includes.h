@@ -20,7 +20,7 @@
 
 #include "../ext/minhook/minhook.h"
 
-#include "usercmd.h"
+#include "../ext/valve-sdk/CUserCmd.h"
 
 
 

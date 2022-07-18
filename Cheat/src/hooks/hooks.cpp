@@ -1,7 +1,8 @@
 #include "hooks.h"
 #include "../includes.h"
-#include "../memory/interfaces.h"
+#include "../interfaces/interfaces.h"
 #include "../memory/memory.h"
+#include "../client-classes/CEntity.h"
 
 void hooks::Destroy() noexcept
 {
@@ -61,7 +62,13 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 	
 	//do your magic in here ! 
 
-	
+	// Radar hack: on by default
+	for (int i = 1; i <= 64; i++) {
+		CEntity* entity = (CEntity*)interfaces::entityList->GetClientEntity(i);
+		if (!entity) continue;
+
+		entity->Spotted() = true;
+	}
 
 	//do your magic in here ! ^
 

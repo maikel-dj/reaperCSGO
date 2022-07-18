@@ -29,7 +29,15 @@
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\gui\gui_consts.h" />
     <ClInclude Include="src\memory\memory.h" />
-    <ClInclude Include="src\memory\interfaces.h" />
+    <ClInclude Include="src\interfaces\interfaces.h" />
+    <ClInclude Include="ext\valve-sdk\IClientEntityList.h" />
+    <ClInclude Include="ext\valve-sdk\datatable.h" />
+    <ClInclude Include="ext\valve-sdk\IBaseClientDLL.h" />
+    <ClInclude Include="src\netvars\fnvhash.h" />
+    <ClInclude Include="src\netvars\netvars.h" />
+    <ClInclude Include="ext\valve-sdk\CUserCmd.h" />
+    <ClInclude Include="src\client-classes\CEntity.h" />
+    <ClInclude Include="ext\valve-sdk\IInputSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\imgui.cpp" />
@@ -49,6 +57,7 @@
     <ClCompile Include="src\hooks\hooks.cpp" />
     <ClCompile Include="src\gui\gui_components.cpp" />
     <ClCompile Include="src\memory\memory.cpp" />
-    <ClCompile Include="src\memory\interfaces.cpp" />
+    <ClCompile Include="src\interfaces\interfaces.cpp" />
+    <ClCompile Include="src\netvars\netvars.cpp" />
   </ItemGroup>
 </Project>

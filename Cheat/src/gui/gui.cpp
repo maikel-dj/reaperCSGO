@@ -1,6 +1,7 @@
 #include "gui.h"
 #include "gui_consts.h"
 #include "gui_components.h"
+#include "../interfaces/interfaces.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 	HWND window,
@@ -251,8 +252,14 @@ LRESULT CALLBACK WindowProcess(
 	)) return 1L;
 
 	// block keyboard/mouse input from being passed on to cs:go if we are clicking buttons inside our menu
-	// should be fixed now
 	if (gui::open && (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse)) return 1L;
+	// TODO: implement https://www.unknowncheats.me/forum/counterstrike-global-offensive/355102-lock-unlock-cursor.html
+	/*if (gui::open && interfaces::entityList->NumberOfEntities(false)) {
+		interfaces::inputSystem->EnableInput(false);
+	}
+	else {
+		interfaces::inputSystem->EnableInput(true);
+	}*/
 
 	return CallWindowProc(
 		gui::originalWindowProcess,
