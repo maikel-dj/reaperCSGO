@@ -46,6 +46,11 @@ static CreateMove CreateMoveOriginal = nullptr;
 
 bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 {
+
+	//retarded check that will break everything if we dont use it
+	if (cmd->commandNumber == 0)
+		return false;
+
 	//need to call original function in a hook
 	const bool result = CreateMoveOriginal(interfaces::clientMode, frameTime, cmd);
 
@@ -53,14 +58,10 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 	{
 		return result;
 	}
-
-	//experimental retcheck implementation
-	//static const auto returnAddress = _ReturnAddress();
-	//if (_ReturnAddress() == returnAddress)
-		//patch function return with a nullptr
-		
 	
 	//do your magic in here ! 
+
+	
 
 	//do your magic in here ! ^
 
@@ -104,6 +105,7 @@ void hooks::Setup()
 		reinterpret_cast<void**>(&CreateMoveOriginal)
 	)) throw std::runtime_error("Unable to hook CreateMove()");
 
+	//retcheck bypass hook
 	if (MH_CreateHook(
 		VirtualFunction(interfaces::keyValuesSystem, 1),
 		&AllocKeyValuesMemoryHook,
