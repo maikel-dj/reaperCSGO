@@ -20,6 +20,7 @@ static T* interfaces::GetInterface(const char* name, const char* library)
 void interfaces::Setup() {
 	client = GetInterface<IBaseClientDLL>("VClient018", "client.dll");
 	entityList = GetInterface<IClientEntityList>("VClientEntityList003", "client.dll");
+	surface = GetInterface<void>("VGUI_Surface031", "vguimatsurface.dll");
 	inputSystem = GetInterface<IInputSystem>("InputSystemVersion001", "inputsystem.dll");
 	clientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(client))[10] + 5);
 

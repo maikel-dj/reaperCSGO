@@ -86,6 +86,18 @@ void* __stdcall hooks::AllocKeyValuesMemoryHook(const std::int32_t size) noexcep
 	return AllocKeyValuesMemoryOriginal(interfaces::keyValuesSystem, size);
 }
 
+void __stdcall hooks::LockCursorHook() {
+	if (gui::open) {
+		using UnlockCursorFn = void(__thiscall*)(void*);
+		UnlockCursorFn unlockCursor = (UnlockCursorFn)VirtualFunction(interfaces::surface, 66);
+
+		unlockCursor(interfaces::surface);
+	}
+	else {
+		LockCursorOriginal(interfaces::surface);
+	}
+}
+
 //maybe do surfacepaint hook for ESP?
 
 void hooks::Setup()
@@ -117,6 +129,13 @@ void hooks::Setup()
 		VirtualFunction(interfaces::keyValuesSystem, 1),
 		&AllocKeyValuesMemoryHook,
 		reinterpret_cast<void**>(&AllocKeyValuesMemoryOriginal)
+	)) throw std::runtime_error("Unable to hook CreateMove()");
+
+	// VGUI lock cursor hook to fix inability to move menu in game
+	if (MH_CreateHook(
+		VirtualFunction(interfaces::surface, 67),
+		&LockCursorHook,
+		reinterpret_cast<void**>(&LockCursorOriginal)
 	)) throw std::runtime_error("Unable to hook CreateMove()");
 
 	if (MH_EnableHook(MH_ALL_HOOKS))

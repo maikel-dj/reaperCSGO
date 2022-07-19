@@ -38,6 +38,11 @@
     <ClInclude Include="ext\valve-sdk\CUserCmd.h" />
     <ClInclude Include="src\client-classes\CEntity.h" />
     <ClInclude Include="ext\valve-sdk\IInputSystem.h" />
+    <ClInclude Include="ext\valve-sdk\ISurface.h" />
+    <ClInclude Include="ext\valve-sdk\IAppSystem.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\vector.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\definitions.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\matrix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\imgui.cpp" />

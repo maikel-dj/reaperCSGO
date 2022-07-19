@@ -25,6 +25,10 @@ namespace hooks
 	inline AllocKeyValuesMemoryFn AllocKeyValuesMemoryOriginal = nullptr;
 	void* __stdcall AllocKeyValuesMemoryHook(const std::int32_t size) noexcept;
 
+	using LockCursorFn = void (__thiscall*)(void*);
+	inline LockCursorFn LockCursorOriginal = nullptr;
+	void __stdcall LockCursorHook();
+
 	//for some reason including the createmove functions caused some really nasty compiling errors so ill get back to it later but it should function for now...
 	
 }

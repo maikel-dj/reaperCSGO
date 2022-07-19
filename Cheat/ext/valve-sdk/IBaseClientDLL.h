@@ -1,8 +1,8 @@
 #pragma once
 #include "datatable.h"
 
-#define CreateInterfaceFn void* // redefined for simplicity
 #define CGlobalVarsBase void*
+#define CreateInterfaceFn void*
 
 class IBaseClientDLL
 {

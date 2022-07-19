@@ -9,6 +9,7 @@ namespace interfaces {
 	inline IBaseClientDLL* client = nullptr;
 	inline IClientEntityList* entityList = nullptr;
 	inline IInputSystem* inputSystem = nullptr;
+	inline void* surface = nullptr;
 	inline void* clientMode = nullptr;
 	inline void* keyValuesSystem = nullptr;
 
