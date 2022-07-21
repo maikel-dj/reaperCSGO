@@ -70,9 +70,9 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 		entity->Spotted() = true;
 	}
 	
-	// cvar test
-	//ConVar* cheats = interfaces::cvar->FindVar("net_graph");
-	//int val = cheats->GetInt();
+	//force crosshair
+	static auto cross = interfaces::cvar->FindVar("weapon_debug_spread_show");
+	cross->SetValue(3);
 
 	//do your magic in here ! ^
 
