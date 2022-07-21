@@ -3,7 +3,8 @@
 #include "definitions/definitions.h"
 #include "definitions/vector.h"
 #include "definitions/matrix.h"
-#include "IAppSystem.h"
+#include "appframework/IAppSystem.h"
+#include <sal.h>
 
 #define PRINTF_FORMAT_STRING _Printf_format_string_
 #define InputContextHandle unsigned long

@@ -4,11 +4,13 @@
 #include "../../ext/valve-sdk/IBaseClientDLL.h"
 #include "../../ext/valve-sdk/IClientEntityList.h"
 #include "../../ext/valve-sdk/IInputSystem.h"
+#include "../../ext/valve-sdk/ICvar.h"
 
 namespace interfaces {
 	inline IBaseClientDLL* client = nullptr;
 	inline IClientEntityList* entityList = nullptr;
 	inline IInputSystem* inputSystem = nullptr;
+	inline ICvar* cvar = nullptr;
 	inline void* surface = nullptr;
 	inline void* clientMode = nullptr;
 	inline void* keyValuesSystem = nullptr;
