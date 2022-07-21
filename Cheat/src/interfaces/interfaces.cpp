@@ -22,7 +22,7 @@ void interfaces::Setup() {
 	entityList = GetInterface<IClientEntityList>("VClientEntityList003", "client.dll");
 	surface = GetInterface<void>("VGUI_Surface031", "vguimatsurface.dll");
 	inputSystem = GetInterface<IInputSystem>("InputSystemVersion001", "inputsystem.dll");
-	cvar = GetInterface<ICvar>("VEngineCvar007", "engine.dll");
+	cvar = GetInterface<ICvar>("VEngineCvar007", "vstdlib.dll");
 	clientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(client))[10] + 5);
 
 	HMODULE hMod = GetModuleHandle("vstdlib.dll");

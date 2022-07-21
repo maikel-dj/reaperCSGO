@@ -39,10 +39,14 @@
     <ClInclude Include="src\client-classes\CEntity.h" />
     <ClInclude Include="ext\valve-sdk\IInputSystem.h" />
     <ClInclude Include="ext\valve-sdk\ISurface.h" />
-    <ClInclude Include="ext\valve-sdk\IAppSystem.h" />
+    <ClInclude Include="ext\valve-sdk\appframework\IAppSystem.h" />
     <ClInclude Include="ext\valve-sdk\definitions\vector.h" />
     <ClInclude Include="ext\valve-sdk\definitions\definitions.h" />
     <ClInclude Include="ext\valve-sdk\definitions\matrix.h" />
+    <ClInclude Include="ext\valve-sdk\ICvar.h" />
+    <ClInclude Include="ext\valve-sdk\tier1\IConVar.h" />
+    <ClInclude Include="ext\valve-sdk\tier1\convar.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\utlvector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\imgui.cpp" />

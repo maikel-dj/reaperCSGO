@@ -69,6 +69,10 @@ bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd)
 
 		entity->Spotted() = true;
 	}
+	
+	// cvar test
+	//ConVar* cheats = interfaces::cvar->FindVar("net_graph");
+	//int val = cheats->GetInt();
 
 	//do your magic in here ! ^
 
