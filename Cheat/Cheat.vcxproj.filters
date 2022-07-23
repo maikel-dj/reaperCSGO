@@ -47,6 +47,7 @@
     <ClInclude Include="ext\valve-sdk\tier1\IConVar.h" />
     <ClInclude Include="ext\valve-sdk\tier1\convar.h" />
     <ClInclude Include="ext\valve-sdk\definitions\utlvector.h" />
+    <ClInclude Include="ext\imgui\misc\freetype\imgui_freetype.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\imgui.cpp" />
@@ -68,5 +69,9 @@
     <ClCompile Include="src\memory\memory.cpp" />
     <ClCompile Include="src\interfaces\interfaces.cpp" />
     <ClCompile Include="src\netvars\netvars.cpp" />
+    <ClCompile Include="ext\imgui\misc\freetype\imgui_freetype.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

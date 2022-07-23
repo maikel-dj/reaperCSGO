@@ -1,15 +1,55 @@
 ﻿  imgui.cpp
   imgui_demo.cpp
   imgui_draw.cpp
+  imgui_freetype.cpp
   imgui_impl_dx9.cpp
   imgui_impl_win32.cpp
   imgui_tables.cpp
   imgui_widgets.cpp
+  netvars.cpp
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'int'
+  interfaces.cpp
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\interfaces\interfaces.cpp(26,94): warning C4312: 'reinterpret_cast': conversion from 'unsigned int' to 'void ***' of greater size
+  memory.cpp
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\memory\memory.cpp(4,31): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   gui.cpp
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'int'
   gui_components.cpp
 C:\Users\madis\source\repos\reaperCSGO\Cheat\src\gui\gui_components.cpp(5,10): fatal error C1083: Cannot open include file: 'd3dx9tex.h': No such file or directory
   hooks.cpp
-C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(96,98): warning C4312: 'reinterpret_cast': conversion from 'unsigned int' to 'void ***' of greater size
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\client-classes\CEntity.h(6,2): warning C4311: '<function-style-cast>': pointer truncation from 'CEntity *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\client-classes\CEntity.h(6,2): warning C4302: '<function-style-cast>': truncation from 'CEntity *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\client-classes\CEntity.h(6,2): warning C4312: 'reinterpret_cast': conversion from 'uint32_t' to 'bool *' of greater size
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\client-classes\CEntity.h(7,2): warning C4311: '<function-style-cast>': pointer truncation from 'CEntity *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\client-classes\CEntity.h(7,2): warning C4302: '<function-style-cast>': truncation from 'CEntity *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\client-classes\CEntity.h(7,2): warning C4312: 'reinterpret_cast': conversion from 'uint32_t' to 'bool *' of greater size
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(84,5): warning C4311: 'reinterpret_cast': pointer truncation from 'void *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(84,5): warning C4302: 'reinterpret_cast': truncation from 'void *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(85,64): warning C4311: 'reinterpret_cast': pointer truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(85,64): warning C4302: 'reinterpret_cast': truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(85,150): warning C4311: 'reinterpret_cast': pointer truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(85,150): warning C4302: 'reinterpret_cast': truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(86,64): warning C4311: 'reinterpret_cast': pointer truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(86,64): warning C4302: 'reinterpret_cast': truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(86,150): warning C4311: 'reinterpret_cast': pointer truncation from 'uint8_t *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(86,150): warning C4302: 'reinterpret_cast': truncation from 'uint8_t *' to 'uint32_t'
   main.cpp
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(40,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'uint32_t'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4311: 'reinterpret_cast': pointer truncation from 'ConVar *' to 'int'
+C:\Users\madis\source\repos\reaperCSGO\Cheat\ext\valve-sdk\tier1\convar.h(46,1): warning C4302: 'reinterpret_cast': truncation from 'ConVar *' to 'int'
   Generating Code...
-C:\Users\madis\source\repos\reaperCSGO\Cheat\src\hooks\hooks.cpp(89): warning C4715: 'CreateMoveHook': not all control paths return a value
