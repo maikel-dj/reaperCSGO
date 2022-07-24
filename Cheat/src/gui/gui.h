@@ -9,7 +9,13 @@ namespace gui
 	inline bool setup = false;
 	// font data
 	inline ImFont* logoFont = nullptr;
-	inline ImFont* defaultFont = nullptr;
+	inline ImFont* defaultFontBold = nullptr;
+	inline ImFont* defaultFont16 = nullptr;
+	inline ImFont* defaultFont20 = nullptr;
+	inline ImFont* defaultFont24 = nullptr;
+	inline ImFont* defaultFontBold16 = nullptr;
+	inline ImFont* defaultFontBold20 = nullptr;
+	inline ImFont* defaultFontBold24 = nullptr;
 
 	// winapi related
 	inline HWND window = nullptr;

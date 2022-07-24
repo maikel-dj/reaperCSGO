@@ -27,7 +27,6 @@ void gui_components::CreateTitlebar(IDirect3DDevice9* device) {
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, -1.0f)); // get rid of the border at the top
-	//ImGui::PushStyleColor(ImGuiCol_WindowBg, style.Colors[ImGuiCol_TitleBg]);
 	ImGui::BeginChild("Titlebar", ImVec2(windowSize.x+2, TITLEBAR_HEIGHT), true);
 	ImGui::PopStyleVar();
 
@@ -68,7 +67,8 @@ void gui_components::DrawTitlebarLogo(IDirect3DDevice9* device) {
 }
 
 // Functions related to drawing the main menu sidebar
-void gui_components::DrawUserAvatar(IDirect3DDevice9* device) {
+void gui_components::DrawUserAvatarAndData(IDirect3DDevice9* device) {
+	// USER AVATAR
 	// TODO: put img in memory in the future
 	if (!gui_components::state.avatarTexture) {
 		
@@ -87,6 +87,22 @@ void gui_components::DrawUserAvatar(IDirect3DDevice9* device) {
 	if (ImGui::GetStyle().WindowPadding.x == 0.0f) window->DC.CursorPos.x += 8.0f;
 	if (ImGui::GetStyle().WindowPadding.y == 0.0f) window->DC.CursorPos.y += 8.0f;
 	ImGui::Image((void*)gui_components::state.avatarTexture, AVATAR_SIZE);
+
+	// USER DATA (name, sub end)
+	ImGuiStyle& style = ImGui::GetStyle();
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, style.ItemSpacing.y));
+
+	if (ImGui::GetStyle().WindowPadding.x == 0.0f) window->DC.CursorPos.x += 8.0f;
+	ImGui::TextWithFont(gui::defaultFont20, "Welcome back, ");
+	ImGui::SameLine(); 
+	ImGui::TextWithFont(gui::defaultFontBold20, "Sparkly");
+
+	if (ImGui::GetStyle().WindowPadding.x == 0.0f) window->DC.CursorPos.x += 8.0f;
+	ImGui::TextWithFont(gui::defaultFont20, "Subscription ends in ");
+	ImGui::SameLine();
+	ImGui::TextWithFont(gui::defaultFontBold20, "19 days");
+
+	ImGui::PopStyleVar();
 }
 
 void gui_components::DrawSidebarHorizontalLine(float lineThickness) {
@@ -107,31 +123,23 @@ void gui_components::DrawSidebarHorizontalLine(float lineThickness) {
 	window->DC.CursorPos.y += lineThickness+2*style.ItemSpacing.y; // make some space for the buttons under this line
 }
 
+int selectedBtn = 0;
 void gui_components::CreateSidebar(IDirect3DDevice9* device) {
 	ImGuiStyle& style = ImGui::GetStyle();
 	ImGui::BeginChild("Sidenav", ImVec2(SIDEBAR_WIDTH, MAIN_MENU_SIZE.y + 2), true);
 
 	// header that has reaper logo and says welcome back, user
-	gui_components::DrawUserAvatar(device);
-	// set the cursor back to the top of the sidebar but so that it's on the right side of the avatar
-	ImGuiWindow* window = ImGui::GetCurrentWindow();
-	if (!window) return;
-
-	ImVec2 originalPos = window->DC.CursorPos;
-	window->DC.CursorPos.y -= AVATAR_SIZE.y;
-	window->DC.CursorPos.x += AVATAR_SIZE.x+ 2 * style.ItemSpacing.x;
-	ImGui::Text("Welcome back, dreamybullxxx");
-	window->DC.CursorPos.x += AVATAR_SIZE.x+ 2 * style.ItemSpacing.x;
-	ImGui::Text("Subscription ends in 21 days");
-	window->DC.CursorPos = originalPos;
-
+	gui_components::DrawUserAvatarAndData(device);
 	// line separator
 	gui_components::DrawSidebarHorizontalLine(5.0f);
-
 	// buttons for different sections of the cheat (legitbot, misc etc)
-	ImGui::Button("bbc");
+	ImGui::PushFont(gui::defaultFont24);
+	if (ImGui::SidebarButtonC("Aimbot", 0, selectedBtn == 0)) selectedBtn = 0;
+	if (ImGui::SidebarButtonC("Visuals", 0, selectedBtn == 1)) selectedBtn = 1;
+	if (ImGui::SidebarButtonC("Misc", 0, selectedBtn == 2)) selectedBtn = 2;
+	ImGui::Button("Compare");
+	ImGui::PopFont();
 
-	// buttons for navigation
 
 	ImGui::EndChild();
 }

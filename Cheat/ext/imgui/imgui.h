@@ -486,6 +486,7 @@ namespace ImGui
     // Widgets: Text
     IMGUI_API void          TextUnformatted(const char* text, const char* text_end = NULL); // raw text without formatting. Roughly equivalent to Text("%s", text) but: A) doesn't require null terminated string if 'text_end' is specified, B) it's faster, no memory copy is done, no buffer size limits, recommended for long chunks of text.
     IMGUI_API void          Text(const char* fmt, ...)                                      IM_FMTARGS(1); // formatted text
+    IMGUI_API void          TextWithFont(ImFont* font, const char* fmt, ...)             IM_FMTARGS(2);
     IMGUI_API void          TextV(const char* fmt, va_list args)                            IM_FMTLIST(1);
     IMGUI_API void          TextColored(const ImVec4& col, const char* fmt, ...)            IM_FMTARGS(2); // shortcut for PushStyleColor(ImGuiCol_Text, col); Text(fmt, ...); PopStyleColor();
     IMGUI_API void          TextColoredV(const ImVec4& col, const char* fmt, va_list args)  IM_FMTLIST(2);
@@ -501,7 +502,8 @@ namespace ImGui
     // Widgets: Main
     // - Most widgets return true when the value has been changed or when pressed/selected
     // - You may also use one of the many IsItemXXX functions (e.g. IsItemActive, IsItemHovered, etc.) to query widget state.
-    IMGUI_API bool          Button(const char* label, const ImVec2& size = ImVec2(0, 0));   // button
+    IMGUI_API bool          Button(const char* label, const ImVec2& size = ImVec2(0, 0));           // button
+    IMGUI_API bool          SidebarButtonC(const char* label, void* icon, bool selected, const float height = 10.0f);   // custom made button for cheat sidenav
     template <typename VType>
     IMGUI_API bool          ButtonWithVar(const char* label, VType* addrOfVar, VType varValueIfBtnPressed, const ImVec2& size = ImVec2(0, 0));
     IMGUI_API bool          SmallButton(const char* label);                                 // button with FramePadding=(0,0) to easily embed within text
@@ -1508,6 +1510,13 @@ enum ImGuiCol_
     ImGuiCol_NavWindowingHighlight, // Highlight window when using CTRL+TAB
     ImGuiCol_NavWindowingDimBg,     // Darken/colorize entire screen behind the CTRL+TAB window list, when active
     ImGuiCol_ModalWindowDimBg,      // Darken/colorize entire screen behind a modal window, when one is active
+
+    ImGuiCol_SidebarButtonC,
+    ImGuiCol_SidebarButtonCHovered,
+    ImGuiCol_SidebarButtonCPressed,
+    ImGuiCol_SidebarButtonCUnderline,
+    ImGuiCol_SidebarButtonCSelectedUnderline,
+
     ImGuiCol_COUNT
 };
 

@@ -15,7 +15,7 @@ namespace gui_components {
 	void CreateTitlebar(IDirect3DDevice9* device);
 	void DrawTitlebarLogo(IDirect3DDevice9* device);
 
-	void DrawUserAvatar(IDirect3DDevice9* device);
+	void DrawUserAvatarAndData(IDirect3DDevice9* device);
 	void DrawSidebarHorizontalLine(float lineThickness);
 	void CreateSidebar(IDirect3DDevice9* device);
 

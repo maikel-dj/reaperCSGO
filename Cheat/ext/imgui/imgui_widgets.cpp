@@ -267,6 +267,18 @@ void ImGui::Text(const char* fmt, ...)
     va_end(args);
 }
 
+void ImGui::TextWithFont(ImFont* font, const char* fmt, ...)
+{
+    ImGui::PushFont(font);
+    va_list args;
+    va_start(args, fmt);
+    TextV(fmt, args);
+    va_end(args);
+    ImGui::PopFont();
+}
+
+
+
 void ImGui::TextV(const char* fmt, va_list args)
 {
     ImGuiWindow* window = GetCurrentWindow();
@@ -714,6 +726,59 @@ bool ImGui::ButtonEx(const char* label, const ImVec2& size_arg, ImGuiButtonFlags
 bool ImGui::Button(const char* label, const ImVec2& size_arg)
 {
     return ButtonEx(label, size_arg, ImGuiButtonFlags_None);
+}
+
+// A sidebar button that automatically scales with the size of the sidebar
+bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const float height) {
+    ImGuiButtonFlags flags = 0;
+    const float LINE_HEIGHT = 5.0f;
+
+    ImGuiWindow* window = GetCurrentWindow();
+    if (window->SkipItems)
+        return false;
+
+    ImGuiContext& g = *GImGui;
+    const ImGuiStyle& style = g.Style;
+    const ImGuiID id = window->GetID(label);
+    const ImVec2 label_size = CalcTextSize(label, NULL, true);
+
+    ImVec2 pos = window->DC.CursorPos;
+    ImVec2 windowSize = GetWindowSize();
+    ImVec2 size = ImVec2(windowSize.x, height > label_size.y ? height : label_size.y);
+    size.y += LINE_HEIGHT + style.FramePadding.y * 3.0f;
+
+    const ImRect bb(pos, pos + size);
+    ItemSize(size, style.FramePadding.y);
+    if (!ItemAdd(bb, id))
+        return false;
+
+    if (g.LastItemData.InFlags & ImGuiItemFlags_ButtonRepeat)
+        flags |= ImGuiButtonFlags_Repeat;
+
+    bool hovered, held;
+    bool pressed = ButtonBehavior(bb, id, &hovered, &held, flags);
+
+    // Render
+    const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_SidebarButtonCPressed : hovered ? ImGuiCol_SidebarButtonCHovered : ImGuiCol_SidebarButtonC);
+    RenderNavHighlight(bb, id);
+    RenderFrame(bb.Min, bb.Max, col, true, 0.0f);
+
+    if (g.LogEnabled)
+        LogSetNextTextDecoration("[", "]");
+    RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label, NULL, &label_size, ImVec2(0.5f, 0.3f), &bb);
+
+    // render a thicc line under the text
+    float centeredTextStartX = (windowSize.x - label_size.x) * 0.5f;
+    ImVec2 startPoint = ImVec2(centeredTextStartX+window->DC.CursorPos.x, window->DC.CursorPos.y - style.FramePadding.y - LINE_HEIGHT);
+    ImVec2 endPoint = ImVec2(startPoint.x+label_size.x, startPoint.y);
+    window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(selected ? ImGuiCol_SidebarButtonCSelectedUnderline : ImGuiCol_SidebarButtonCUnderline), LINE_HEIGHT);
+
+    // Automatically close popups
+    //if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
+    //    CloseCurrentPopup();
+
+    IMGUI_TEST_ENGINE_ITEM_INFO(id, label, g.LastItemData.StatusFlags);
+    return pressed;
 }
 
 template <typename VType>

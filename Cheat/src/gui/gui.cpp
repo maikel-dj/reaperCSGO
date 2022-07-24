@@ -206,17 +206,34 @@ void gui::ApplyCustomStyle() noexcept {
 
 	style.Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.00f, 0.00f, 1.0f);
 	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.058f, 0.058f, 0.058f, 0.95f);
+
+	// apply style to our own custom buttons
+	style.Colors[ImGuiCol_SidebarButtonC] = ImVec4(0.24f, 0.25f, 0.25f, 0.3f);
+	style.Colors[ImGuiCol_SidebarButtonCHovered] = ImVec4(0.34f, 0.34f, 0.34f, 0.8f);
+	style.Colors[ImGuiCol_SidebarButtonCPressed] = ImVec4(0.34f, 0.34f, 0.34f, 0.6f);
+	style.Colors[ImGuiCol_SidebarButtonCUnderline] = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
+	style.Colors[ImGuiCol_SidebarButtonCSelectedUnderline] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
 }
 
 void gui::LoadFonts() noexcept {
 	ImGuiIO& io = ImGui::GetIO();
 	
 	gui::logoFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", TITLEBAR_FONT_SIZE);
+
 	io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 13.0f);
+	gui::defaultFontBold = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 13.0f);
+	gui::defaultFont16 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 16.0f);
+	gui::defaultFont20 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 20.0f);
+	gui::defaultFont24 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 24.0f);
+	gui::defaultFontBold16 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 16.0f);
+	gui::defaultFontBold20 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 20.0f);
+	gui::defaultFontBold24 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 24.0f);
 }
 
 void gui::Render(IDirect3DDevice9* device) noexcept
 {
+
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
