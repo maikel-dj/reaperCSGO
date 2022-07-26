@@ -205,8 +205,8 @@ void gui::ApplyCustomStyle() noexcept {
 	style.WindowTitleAlign.x = 0.5f;
 
 	style.Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.00f, 0.00f, 1.0f);
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.25f, 0.25f, 0.25f, 0.95f);
-	style.Colors[ImGuiCol_Separator] = ImVec4(0.34f, 0.35f, 0.34f, 0.8f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.18f, 0.19f, 0.19f, 0.95f);//ImVec4(0.058f, 0.058f, 0.058f, 0.95f);
+	style.Colors[ImGuiCol_Separator] = ImVec4(0.32f, 0.33f, 0.33f, 0.95f);//ImVec4(0.25f, 0.25f, 0.25f, 0.95f);
 
 	// apply style to our own custom buttons
 	style.Colors[ImGuiCol_TabbarButtonC] = ImVec4(0.24f, 0.25f, 0.25f, 0.3f);
