@@ -745,7 +745,7 @@ bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const f
     ImVec2 pos = window->DC.CursorPos;
     ImVec2 windowSize = GetWindowSize();
     ImVec2 size = ImVec2(windowSize.x, height > label_size.y ? height : label_size.y);
-    size.y += LINE_HEIGHT + style.FramePadding.y * 3.0f;
+    size.y += LINE_HEIGHT + style.FramePadding.y * 4.0f;
 
     const ImRect bb(pos, pos + size);
     ItemSize(size, style.FramePadding.y);
@@ -757,6 +757,7 @@ bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const f
 
     bool hovered, held;
     bool pressed = ButtonBehavior(bb, id, &hovered, &held, flags);
+    if (pressed && !held && !selected) g.LastActiveIdTimer = 0.0f;
 
     // Render
     const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_SidebarButtonCPressed : hovered ? ImGuiCol_SidebarButtonCHovered : ImGuiCol_SidebarButtonC);
@@ -767,12 +768,29 @@ bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const f
         LogSetNextTextDecoration("[", "]");
     RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label, NULL, &label_size, ImVec2(0.5f, 0.3f), &bb);
 
-    // render a thicc line under the text
+    // Calculate where to render a stationary line under the text
     float centeredTextStartX = (windowSize.x - label_size.x) * 0.5f;
-    ImVec2 startPoint = ImVec2(centeredTextStartX+window->DC.CursorPos.x, window->DC.CursorPos.y - style.FramePadding.y - LINE_HEIGHT);
-    ImVec2 endPoint = ImVec2(startPoint.x+label_size.x, startPoint.y);
-    window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(selected ? ImGuiCol_SidebarButtonCSelectedUnderline : ImGuiCol_SidebarButtonCUnderline), LINE_HEIGHT);
+    ImVec2 startPoint = ImVec2(centeredTextStartX + window->DC.CursorPos.x, window->DC.CursorPos.y - style.FramePadding.y * 2.0f - LINE_HEIGHT);
+    ImVec2 endPoint = ImVec2(startPoint.x + label_size.x, startPoint.y);
+   
+    // Animate the line to transition from underline->selected underline color by drawing another line over it
+    bool transitioning = false;
+    if (g.LastActiveId == id) {
+        float lineCoef = ImSaturate(fabsf(g.LastActiveIdTimer) / 0.160f);
+        if (lineCoef != 1.0f) {
+            transitioning = true;
+            float transitioningLineWidth = label_size.x * lineCoef;
+            float lineMidpointX = centeredTextStartX + 0.5f * label_size.x + window->DC.CursorPos.x;
 
+            ImVec2 animLineStart = ImVec2(lineMidpointX - 0.5f * transitioningLineWidth, startPoint.y);
+            ImVec2 animLineEnd = ImVec2(lineMidpointX + 0.5f * transitioningLineWidth, startPoint.y);
+            window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(ImGuiCol_SidebarButtonCUnderline), LINE_HEIGHT);
+            window->DrawList->AddLine(animLineStart, animLineEnd, ImGui::GetColorU32(ImGuiCol_SidebarButtonCSelectedUnderline), LINE_HEIGHT);
+        }
+    }
+
+    if(!transitioning) window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32((selected || pressed) ? ImGuiCol_SidebarButtonCSelectedUnderline : ImGuiCol_SidebarButtonCUnderline), LINE_HEIGHT);
+    
     // Automatically close popups
     //if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
     //    CloseCurrentPopup();
