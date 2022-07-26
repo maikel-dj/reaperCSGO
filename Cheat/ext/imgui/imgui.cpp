@@ -2772,9 +2772,6 @@ const char* ImGui::GetStyleColorName(ImGuiCol idx)
     case ImGuiCol_NavWindowingHighlight: return "NavWindowingHighlight";
     case ImGuiCol_NavWindowingDimBg: return "NavWindowingDimBg";
     case ImGuiCol_ModalWindowDimBg: return "ModalWindowDimBg";
-    case ImGuiCol_SidebarButtonC: return "ImGuiCol_SidebarButtonC";
-    case ImGuiCol_SidebarButtonCHovered: return "ImGuiCol_SidebarButtonCHovered";
-    case ImGuiCol_SidebarButtonCPressed: return "ImGuiCol_SidebarButtonCPressed";
     }
     IM_ASSERT(0);
     return "Unknown";

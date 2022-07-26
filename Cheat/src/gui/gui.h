@@ -8,7 +8,6 @@ namespace gui
 	// is menu setup?
 	inline bool setup = false;
 	// font data
-	inline ImFont* logoFont = nullptr;
 	inline ImFont* defaultFontBold = nullptr;
 	inline ImFont* defaultFont16 = nullptr;
 	inline ImFont* defaultFont20 = nullptr;

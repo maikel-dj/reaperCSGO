@@ -1,6 +1,6 @@
 #include "gui.h"
 #include "gui_consts.h"
-#include "gui_components.h"
+#include "components/components.h"
 #include "../interfaces/interfaces.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
@@ -199,36 +199,35 @@ void gui::ApplyCustomStyle() noexcept {
 
 	style.WindowBorderSize = 0.0f;
 	style.WindowMenuButtonPosition = ImGuiDir_None;
-	style.WindowPadding.x = 0.0f;
-	style.WindowPadding.y = 0.0f;
+	//style.WindowPadding.x = 0.0f;
+	//style.WindowPadding.y = 0.0f;
 	style.WindowRounding = 6.0f;
 	style.WindowTitleAlign.x = 0.5f;
 
 	style.Colors[ImGuiCol_TitleBg] = ImVec4(0.10f, 0.00f, 0.00f, 1.0f);
-	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.058f, 0.058f, 0.058f, 0.95f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.25f, 0.25f, 0.25f, 0.95f);
+	style.Colors[ImGuiCol_Separator] = ImVec4(0.34f, 0.35f, 0.34f, 0.8f);
 
 	// apply style to our own custom buttons
-	style.Colors[ImGuiCol_SidebarButtonC] = ImVec4(0.24f, 0.25f, 0.25f, 0.3f);
-	style.Colors[ImGuiCol_SidebarButtonCHovered] = ImVec4(0.34f, 0.34f, 0.34f, 0.8f);
-	style.Colors[ImGuiCol_SidebarButtonCPressed] = ImVec4(0.34f, 0.34f, 0.34f, 0.6f);
-	style.Colors[ImGuiCol_SidebarButtonCUnderline] = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
-	style.Colors[ImGuiCol_SidebarButtonCSelectedUnderline] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+	style.Colors[ImGuiCol_TabbarButtonC] = ImVec4(0.24f, 0.25f, 0.25f, 0.3f);
+	style.Colors[ImGuiCol_TabbarButtonCHovered] = ImVec4(0.34f, 0.34f, 0.34f, 0.8f);
+	style.Colors[ImGuiCol_TabbarButtonCPressed] = ImVec4(0.34f, 0.34f, 0.34f, 0.6f);
+	style.Colors[ImGuiCol_TabbarButtonCUnderline] = ImVec4(1.0f, 1.0f, 1.0f, 0.7f);
+	style.Colors[ImGuiCol_TabbarButtonCSelectedUnderline] = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 }
 
 void gui::LoadFonts() noexcept {
 	ImGuiIO& io = ImGui::GetIO();
-	
-	gui::logoFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", TITLEBAR_FONT_SIZE);
 
-	io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 13.0f);
-	gui::defaultFontBold = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 13.0f);
-	gui::defaultFont16 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 16.0f);
-	gui::defaultFont20 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 20.0f);
-	gui::defaultFont24 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 24.0f);
-	gui::defaultFontBold16 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 16.0f);
-	gui::defaultFontBold20 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 20.0f);
-	gui::defaultFontBold24 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arialbd.ttf", 24.0f);
+	io.FontDefault = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode.ttf", 13.0f);
+	gui::defaultFontBold = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode.ttf", 13.0f);
+	gui::defaultFont16 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode.ttf", 16.0f);
+	gui::defaultFont20 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode.ttf", 20.0f);
+	gui::defaultFont24 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode.ttf", 24.0f);
+	//gui::defaultFontBold16 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode-Bold.ttf", 16.0f);
+	//gui::defaultFontBold20 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode-Bold.ttf", 20.0f);
+	//gui::defaultFontBold24 = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\CascadiaCode-Bold.ttf", 24.0f);
 }
 
 void gui::Render(IDirect3DDevice9* device) noexcept
@@ -270,13 +269,6 @@ LRESULT CALLBACK WindowProcess(
 
 	// block keyboard/mouse input from being passed on to cs:go if we are clicking buttons inside our menu
 	if (gui::open && (ImGui::GetCurrentContext() && ImGui::GetIO().WantCaptureMouse)) return 1L;
-	// TODO: implement https://www.unknowncheats.me/forum/counterstrike-global-offensive/355102-lock-unlock-cursor.html
-	/*if (gui::open && interfaces::entityList->NumberOfEntities(false)) {
-		interfaces::inputSystem->EnableInput(false);
-	}
-	else {
-		interfaces::inputSystem->EnableInput(true);
-	}*/
 
 	return CallWindowProc(
 		gui::originalWindowProcess,

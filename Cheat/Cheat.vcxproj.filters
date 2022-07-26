@@ -25,7 +25,6 @@
     <ClInclude Include="src\gui\gui.h" />
     <ClInclude Include="src\hooks\hooks.h" />
     <ClInclude Include="src\includes.h" />
-    <ClInclude Include="src\gui\gui_components.h" />
     <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\gui\gui_consts.h" />
     <ClInclude Include="src\memory\memory.h" />
@@ -48,6 +47,8 @@
     <ClInclude Include="ext\valve-sdk\tier1\convar.h" />
     <ClInclude Include="ext\valve-sdk\definitions\utlvector.h" />
     <ClInclude Include="ext\imgui\misc\freetype\imgui_freetype.h" />
+    <ClInclude Include="src\gui\helpers\directx.h" />
+    <ClInclude Include="src\gui\components\components.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\imgui.cpp" />
@@ -65,11 +66,11 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\gui\gui.cpp" />
     <ClCompile Include="src\hooks\hooks.cpp" />
-    <ClCompile Include="src\gui\gui_components.cpp" />
     <ClCompile Include="src\memory\memory.cpp" />
     <ClCompile Include="src\interfaces\interfaces.cpp" />
     <ClCompile Include="src\netvars\netvars.cpp" />
     <ClCompile Include="ext\imgui\misc\freetype\imgui_freetype.cpp" />
+    <ClCompile Include="src\gui\components\mainmenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

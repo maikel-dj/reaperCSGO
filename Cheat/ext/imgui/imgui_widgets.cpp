@@ -728,8 +728,8 @@ bool ImGui::Button(const char* label, const ImVec2& size_arg)
     return ButtonEx(label, size_arg, ImGuiButtonFlags_None);
 }
 
-// A sidebar button that automatically scales with the size of the sidebar
-bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const float height) {
+// A 
+bool ImGui::TabbarButtonC(const char* label, void* icon, bool selected, const float height, const float width) {
     ImGuiButtonFlags flags = 0;
     const float LINE_HEIGHT = 5.0f;
 
@@ -742,9 +742,9 @@ bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const f
     const ImGuiID id = window->GetID(label);
     const ImVec2 label_size = CalcTextSize(label, NULL, true);
 
-    ImVec2 pos = window->DC.CursorPos;
+    ImVec2 pos = window->DC.CursorPos; // position before drawing NEEDED FOR UNDERLINE CALCULATION
     ImVec2 windowSize = GetWindowSize();
-    ImVec2 size = ImVec2(windowSize.x, height > label_size.y ? height : label_size.y);
+    ImVec2 size = ImVec2(width != 0.0f ? width : label_size.x+style.FramePadding.x*2.0f, height != 0.0f ? height : label_size.y);
     size.y += LINE_HEIGHT + style.FramePadding.y * 4.0f;
 
     const ImRect bb(pos, pos + size);
@@ -760,7 +760,7 @@ bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const f
     if (pressed && !held && !selected) g.LastActiveIdTimer = 0.0f;
 
     // Render
-    const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_SidebarButtonCPressed : hovered ? ImGuiCol_SidebarButtonCHovered : ImGuiCol_SidebarButtonC);
+    const ImU32 col = GetColorU32((held && hovered) ? ImGuiCol_TabbarButtonCPressed : hovered ? ImGuiCol_TabbarButtonCHovered : ImGuiCol_TabbarButtonC);
     RenderNavHighlight(bb, id);
     RenderFrame(bb.Min, bb.Max, col, true, 0.0f);
 
@@ -769,27 +769,27 @@ bool ImGui::SidebarButtonC(const char* label, void* icon, bool selected, const f
     RenderTextClipped(bb.Min + style.FramePadding, bb.Max - style.FramePadding, label, NULL, &label_size, ImVec2(0.5f, 0.3f), &bb);
 
     // Calculate where to render a stationary line under the text
-    float centeredTextStartX = (windowSize.x - label_size.x) * 0.5f;
-    ImVec2 startPoint = ImVec2(centeredTextStartX + window->DC.CursorPos.x, window->DC.CursorPos.y - style.FramePadding.y * 2.0f - LINE_HEIGHT);
+    ImVec2 startPoint = ImVec2(pos.x+style.FramePadding.x-2.0f, window->DC.CursorPos.y - style.FramePadding.y * 2.0f - LINE_HEIGHT);
     ImVec2 endPoint = ImVec2(startPoint.x + label_size.x, startPoint.y);
    
     // Animate the line to transition from underline->selected underline color by drawing another line over it
+    
     bool transitioning = false;
     if (g.LastActiveId == id) {
         float lineCoef = ImSaturate(fabsf(g.LastActiveIdTimer) / 0.160f);
         if (lineCoef != 1.0f) {
             transitioning = true;
             float transitioningLineWidth = label_size.x * lineCoef;
-            float lineMidpointX = centeredTextStartX + 0.5f * label_size.x + window->DC.CursorPos.x;
+            float lineMidpointX = pos.x + endPoint.x*0.5f;
 
             ImVec2 animLineStart = ImVec2(lineMidpointX - 0.5f * transitioningLineWidth, startPoint.y);
             ImVec2 animLineEnd = ImVec2(lineMidpointX + 0.5f * transitioningLineWidth, startPoint.y);
-            window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(ImGuiCol_SidebarButtonCUnderline), LINE_HEIGHT);
-            window->DrawList->AddLine(animLineStart, animLineEnd, ImGui::GetColorU32(ImGuiCol_SidebarButtonCSelectedUnderline), LINE_HEIGHT);
+            window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(ImGuiCol_TabbarButtonCUnderline), LINE_HEIGHT);
+            window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(ImGuiCol_TabbarButtonCSelectedUnderline), LINE_HEIGHT);
         }
     }
 
-    if(!transitioning) window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32((selected || pressed) ? ImGuiCol_SidebarButtonCSelectedUnderline : ImGuiCol_SidebarButtonCUnderline), LINE_HEIGHT);
+    window->DrawList->AddLine(startPoint, endPoint, ImGui::GetColorU32(selected ? ImGuiCol_TabbarButtonCSelectedUnderline : ImGuiCol_TabbarButtonCUnderline), LINE_HEIGHT);
     
     // Automatically close popups
     //if (pressed && !(flags & ImGuiButtonFlags_DontClosePopups) && (window->Flags & ImGuiWindowFlags_Popup))
