@@ -20,10 +20,19 @@ static T* interfaces::GetInterface(const char* name, const char* library)
 void interfaces::Setup() {
 	client = GetInterface<IBaseClientDLL>("VClient018", "client.dll");
 	entityList = GetInterface<IClientEntityList>("VClientEntityList003", "client.dll");
-	surface = GetInterface<void>("VGUI_Surface031", "vguimatsurface.dll");
+	surface = GetInterface<ISurface>("VGUI_Surface031", "vguimatsurface.dll");
 	inputSystem = GetInterface<IInputSystem>("InputSystemVersion001", "inputsystem.dll");
 	cvar = GetInterface<ICvar>("VEngineCvar007", "vstdlib.dll");
 	clientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(client))[10] + 5);
+	panel = GetInterface<void>("VGUI_Panel009", "vgui2.dll");
+	engineVGui = GetInterface<IEngineVGui>("VEngineVGui001", "engine.dll");
+	engine = GetInterface<IVEngineClient>("VEngineClient014", "engine.dll");
+	debugOverlay = GetInterface<IVDebugOverlay>("VDebugOverlay004", "engine.dll");
+
+	if (!(globals = **reinterpret_cast<GlobalVarsBase***>((*reinterpret_cast<uintptr_t**>(client))[11] + 10)))
+	{
+		throw std::runtime_error("Unable to get GlobalVars pointer.");
+	}
 
 	HMODULE hMod = GetModuleHandle("vstdlib.dll");
 	if(hMod)

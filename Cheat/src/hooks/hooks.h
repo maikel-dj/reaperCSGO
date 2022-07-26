@@ -21,14 +21,19 @@ namespace hooks
 	inline ResetFn ResetOriginal = nullptr;
 	HRESULT __stdcall Reset(IDirect3DDevice9* device, D3DPRESENT_PARAMETERS* params) noexcept;
 
-	using AllocKeyValuesMemoryFn = void* (__thiscall*)(void*, const std::int32_t) noexcept;
+	using CreateMoveFn = bool(__thiscall*)(void*, float, UserCmd*);
+	inline CreateMoveFn CreateMoveOriginal = nullptr;
+	bool __stdcall CreateMoveHook(float frameTime, UserCmd* cmd);
+
+	using AllocKeyValuesMemoryFn = void* (__thiscall*)(void*, const int32_t) noexcept;
 	inline AllocKeyValuesMemoryFn AllocKeyValuesMemoryOriginal = nullptr;
-	void* __stdcall AllocKeyValuesMemoryHook(const std::int32_t size) noexcept;
+	void* __stdcall AllocKeyValuesMemoryHook(const int32_t size) noexcept;
 
 	using LockCursorFn = void (__thiscall*)(void*);
 	inline LockCursorFn LockCursorOriginal = nullptr;
 	void __stdcall LockCursorHook();
-
-	//for some reason including the createmove functions caused some really nasty compiling errors so ill get back to it later but it should function for now...
 	
+	using PaintTraverseFn = void(__thiscall*)(void*, uintptr_t, bool, bool);
+	inline PaintTraverseFn PaintTraverseOriginal = nullptr;
+	void __stdcall PaintTraverseHook(uintptr_t vguiPanel, bool forceRepaint, bool allowForce) noexcept;
 }

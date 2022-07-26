@@ -2,7 +2,6 @@
 
 #include "appframework/IAppSystem.h"
 #include "tier1/IConVar.h"
-#include "tier1/convar.h"
 #include <sal.h>
 
 #define PRINTF_FORMAT_STRING _Printf_format_string_

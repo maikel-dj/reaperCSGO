@@ -39,16 +39,22 @@
     <ClInclude Include="ext\valve-sdk\IInputSystem.h" />
     <ClInclude Include="ext\valve-sdk\ISurface.h" />
     <ClInclude Include="ext\valve-sdk\appframework\IAppSystem.h" />
-    <ClInclude Include="ext\valve-sdk\definitions\vector.h" />
     <ClInclude Include="ext\valve-sdk\definitions\definitions.h" />
-    <ClInclude Include="ext\valve-sdk\definitions\matrix.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\cmatrix.h" />
     <ClInclude Include="ext\valve-sdk\ICvar.h" />
     <ClInclude Include="ext\valve-sdk\tier1\IConVar.h" />
-    <ClInclude Include="ext\valve-sdk\tier1\convar.h" />
+    <ClInclude Include="src\client-classes\convar.h" />
     <ClInclude Include="ext\valve-sdk\definitions\utlvector.h" />
     <ClInclude Include="ext\imgui\misc\freetype\imgui_freetype.h" />
     <ClInclude Include="src\gui\helpers\directx.h" />
     <ClInclude Include="src\gui\components\components.h" />
+    <ClInclude Include="ext\valve-sdk\IEngineVGui.h" />
+    <ClInclude Include="src\client-classes\IVEngineClient.h" />
+    <ClInclude Include="src\client-classes\GlobalVarsBase.h" />
+    <ClInclude Include="ext\valve-sdk\IVDebugOverlay.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\cvector.h" />
+    <ClInclude Include="ext\valve-sdk\definitions\ccolor.h" />
+    <ClInclude Include="src\client-classes\ISurface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ext\imgui\imgui.cpp" />
